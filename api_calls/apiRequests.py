@@ -1,6 +1,6 @@
 import requests
 from config import API_KEY
-from api_calls.ResponseAuthClass import AuthResponse
+from api_calls.AuthResponseClass import AuthResponse
 
 URL="https://www.bungie.net"
 

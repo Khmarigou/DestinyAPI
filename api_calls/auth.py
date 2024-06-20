@@ -2,8 +2,9 @@ import json
 import requests
 import base64
 import webbrowser
-from api_calls.ResponseAuthClass import AuthResponse
+from api_calls.AuthResponseClass import AuthResponse
 from config import AUTH_URL, CLIENT_ID, CLIENT_SECRET
+from api_calls.apiRequests import get
 
 def authentication() :
     '''
@@ -56,7 +57,20 @@ def getAuthentified():
         print("Token expired")
         auth = refresh_token(auth)
         write_data_auth(auth)
+    gettingUserInfo(auth)
     return auth
+
+def gettingUserInfo(auth):
+    '''
+    This function is used to get the user info like membershipId, membershipType displayName...
+    '''
+    userInfo = get(auth, "/Platform/User/GetMembershipsForCurrentUser/")
+    destinyinfo = userInfo["Response"]["destinyMemberships"][0]
+    auth.membership_id = destinyinfo["membershipId"]
+    auth.membership_type = destinyinfo["membershipType"]
+    auth.display_name = destinyinfo["displayName"]
+    auth.bungieGlobalDisplayNameCode = destinyinfo["bungieGlobalDisplayNameCode"]
+
 
 def refresh_token(auth) :
     token = auth.refresh_token
