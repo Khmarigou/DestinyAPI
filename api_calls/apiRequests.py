@@ -1,12 +1,12 @@
 import requests
-from auth import api_key, auth_url, client_id, client_secret
-from ResponseAuthClass import authResponse
+from config import API_KEY
+from api_calls.ResponseAuthClass import AuthResponse
 
 URL="https://www.bungie.net"
 
-def get(authRessources: authResponse, url) :
+def get(authRessources: AuthResponse, url) :
     header = {
-        "X-API-Key": api_key,
+        "X-API-Key": API_KEY,
         "Authorization": authRessources.token_type +" " + authRessources.access_token
     }
     r = requests.get(URL + url, headers=header)

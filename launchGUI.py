@@ -1,6 +1,6 @@
-from ResponseAuthClass import authResponse
-from apiRequests import get
-from auth import authentication, refresh_token, write_data, read_data
+from api_calls.ResponseAuthClass import authResponse
+from api_calls.apiRequests import get
+from api_calls.auth import authentication, refresh_token, write_data, read_data
 from CharacterClass import Character
 from window import App
 from sqlite import *

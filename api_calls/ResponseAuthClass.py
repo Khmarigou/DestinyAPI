@@ -8,7 +8,7 @@ class DateTimeEncoder(JSONEncoder):
         if isinstance(obj, (datetime.date, datetime.datetime)):
             return obj.isoformat()
 
-class authResponse:
+class AuthResponse:
     def __init__(self, jsonObject):
         self.access_token = jsonObject["access_token"]
         self.token_type = jsonObject["token_type"]
@@ -28,7 +28,7 @@ class authResponse:
         return "access_token: " + self.access_token + "\ntoken_type: " + self.token_type + "\nrefresh_token: " + self.refresh_token + "\nexpires_in: " + str(self.expires_in) + "\nrefresh_expires_in: " + str(self.refresh_expires_in) + "\nmembership_id: " + self.membership_id
 
     def __eq__(self, other):
-        if isinstance(other, authResponse):
+        if isinstance(other, AuthResponse):
             return self.access_token == other.access_token and self.token_type == other.token_type and self.refresh_token == other.refresh_token and self.expires_in == other.expires_in and self.refresh_expires_in == other.refresh_expires_in and self.membership_id == other.membership_id
         return False
 
@@ -64,6 +64,9 @@ class authResponse:
             "date": self.date
         }
         return json.dumps(selfJSON, cls=DateTimeEncoder)
+
+    def isRereshExpired(self):
+        return (datetime.datetime.now() - self.date).total_seconds() >= self.refresh_expires_in
 
     def isExpired(self):
         return (datetime.datetime.now() - self.date).total_seconds() >= self.expires_in
